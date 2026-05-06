@@ -110,19 +110,6 @@ Separates consumption and exogenous features into independent TCN paths. Outputs
 ### DualTCN_Attn
 Extends DualTCN with cross-attention: the consumption path queries the exogenous path to dynamically weight historical calendar contexts. `Attention(Q, K, V) = softmax(Q·Kᵀ/√d)·V` where Q=consumption last step, K=V=exogenous sequence.
 
-## Citation
-
-```bibtex
-@article{oguz2026turkey,
-  title={Multi-Horizon Deep Learning Forecasting of Turkey's Hourly Electricity
-         Consumption: A Comprehensive Comparison of Temporal Convolutional Network
-         Families on a Decade of National Data},
-  author={[Authors]},
-  journal={[Journal]},
-  year={2026}
-}
-```
-
 ## License
 
 This project is released under the MIT License. The EPİAŞ dataset is publicly available under the terms of the EPİAŞ Transparency Platform.
