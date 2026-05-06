@@ -1,0 +1,69 @@
+{
+    "model_configs": {
+        "LightTCN_medium":     {"base_channels": 64,  "kernel_size": 3, "dropout": 0.15},
+        "LightTCN_large":      {"base_channels": 128, "kernel_size": 3, "dropout": 0.2},
+        "ConcatTCN_medium":    {"base_channels": 64,  "kernel_size": 3, "dropout": 0.15},
+        "ConcatTCN_large":     {"base_channels": 128, "kernel_size": 3, "dropout": 0.2},
+        "DualTCN_medium":      {"base_channels": 64,  "kernel_size": 3, "dropout": 0.15},
+        "DualTCN_large":       {"base_channels": 128, "kernel_size": 3, "dropout": 0.2},
+        "DualTCN_Attn_medium": {"base_channels": 64,  "kernel_size": 3, "dropout": 0.15},
+        "DualTCN_Attn_large":  {"base_channels": 128, "kernel_size": 3, "dropout": 0.2},
+        "LSTM_medium":         {"hidden_size": 64,  "num_layers": 2, "dropout": 0.15},
+        "BiLSTM_medium":       {"hidden_size": 64,  "num_layers": 2, "dropout": 0.15},
+        "CNN_LSTM_medium":     {"cnn_filters": 64,  "lstm_hidden": 64, "dropout": 0.15}
+    },
+
+    "experiments": {
+        "main": {
+            "description": "Main experiments: H={1,24,168}, w={168,336,720}, 13 models",
+            "horizons": [1, 24, 168],
+            "input_windows": [168, 336, 720],
+            "models": [
+                "LightTCN_medium", "LightTCN_large",
+                "ConcatTCN_medium", "ConcatTCN_large",
+                "DualTCN_medium", "DualTCN_large",
+                "DualTCN_Attn_medium", "DualTCN_Attn_large",
+                "LSTM_medium", "BiLSTM_medium", "CNN_LSTM_medium"
+            ],
+            "run_baselines": true,
+            "seeds": [42]
+        },
+        "long_horizon": {
+            "description": "Long horizon: H=720, w={1440,2160}",
+            "horizons": [720],
+            "input_windows": [1440, 2160],
+            "models": ["LightTCN_medium", "LightTCN_large"],
+            "run_baselines": true,
+            "seeds": [42]
+        },
+        "ablation_univariate": {
+            "description": "Feature ablation: univariate (consumption only) vs multivariate",
+            "horizons": [1, 24, 168],
+            "input_windows": [168, 336, 720],
+            "models": ["LightTCN_medium", "LightTCN_large"],
+            "num_features": 1,
+            "run_baselines": true,
+            "seeds": [42]
+        }
+    },
+
+    "training": {
+        "batch_size": 256,
+        "learning_rate": 1e-3,
+        "weight_decay": 1e-5,
+        "num_epochs": 90,
+        "early_stopping_patience": 10,
+        "scheduler_factor": 0.7,
+        "scheduler_patience": 4,
+        "scheduler_min_lr": 1e-6,
+        "gradient_clip_norm": 1.0,
+        "huber_delta": 1.0,
+        "use_amp": true
+    },
+
+    "data": {
+        "train_ratio": 0.80,
+        "val_ratio": 0.10,
+        "target_column": "Consumption (MWh)"
+    }
+}
